@@ -22,6 +22,7 @@ class Solution:
         for i in range(len(newList) - 1, -1, -1):
             newList[i], l, r = self.getGreatestSquare(nums, l, r)
         return newList
+        # return sorted(num ** 2 for num in nums)
         
 # @lc code=end
 
