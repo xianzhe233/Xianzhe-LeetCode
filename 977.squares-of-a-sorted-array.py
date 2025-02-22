@@ -5,6 +5,9 @@
 #
 
 # @lc code=start
+from typing import List
+
+
 class Solution:
     def getGreatestSquare(self, nums, l, r):
         lSquare, rSquare = nums[l] ** 2, nums[r] ** 2
