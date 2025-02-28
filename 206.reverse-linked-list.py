@@ -17,6 +17,10 @@ class ListNode:
         
 class Solution:
     def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        return self.reverseListRecursive(head)
+
+
+    def reverseListIterative(self, head: Optional[ListNode]) -> Optional[ListNode]:
         pre, current, next = None, head, None
         while True:
             if current == None:
@@ -25,6 +29,21 @@ class Solution:
             current.next = pre
             pre = current
             current = next
+            
+    def reverseListRecursive(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        
+        def reverse(head, last):
+            if head.next == None:
+                new_head = head
+            else:   
+                new_head = reverse(head.next, head)
+            head.next = last
+            return new_head
+        
+        if head == None:
+            return head
+        return reverse(head, None)
+
         
 # @lc code=end
 
