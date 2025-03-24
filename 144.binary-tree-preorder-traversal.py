@@ -19,11 +19,21 @@ class TreeNode:
 class Solution:
 
     def preorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
-        if root == None:
-            return []
+        res = []
+        stack = []
+        stack.append(root)
 
-        return [root.val] + self.preorderTraversal(
-            root.left) + self.preorderTraversal(root.right)
+        while stack:
+            node = stack.pop()
+
+            if node != None:
+                res.append(node.val)
+            else:
+                continue
+
+            stack.extend([node.right, node.left])
+
+        return res
 
 
 # @lc code=end

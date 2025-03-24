@@ -19,11 +19,21 @@ class TreeNode:
 class Solution:
 
     def postorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
-        if root == None:
-            return []
+        res = []
+        stack = []
+        stack.append(root)
 
-        return self.postorderTraversal(root.left) + self.postorderTraversal(
-            root.right) + [root.val]
+        while stack:
+            node = stack.pop()
+
+            if node != None:
+                res.append(node.val)
+            else:
+                continue
+
+            stack.extend([node.left, node.right])
+
+        return list(reversed(res))
 
 
 # @lc code=end
