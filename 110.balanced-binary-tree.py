@@ -19,23 +19,19 @@ class TreeNode:
 class Solution:
 
     def isBalanced(self, root: Optional[TreeNode]) -> bool:
-        depth_dict = {}
 
         def depth(node):
 
             if node == None:
                 return 0
 
-            if node not in depth_dict:
-                depth_dict[node] = 1 + max(depth(node.left), depth(node.right))
+            left, right = depth(node.left), depth(node.right)
 
-            return depth_dict[node]
+            if left == -1 or right == -1 or abs(left - right) > 1:
+                return -1
+            return max(left, right) + 1
 
-        if root == None:
-            return True
-        else:
-            return self.isBalanced(root.left) and self.isBalanced(
-                root.right) and abs(depth(root.left) - depth(root.right)) <= 1
+        return depth(root) != -1
 
 
 # @lc code=end
