@@ -33,15 +33,18 @@ class Solution:
                 return len(s) - index
 
             # base case
-            if rest_part() == 0 or rest_length() == 0:
+            if rest_length() == 0:
                 # during the process, every integer part will checked to be valid, so no rest digit implies valid partition
-                if rest_part() == 0 and rest_length() == 0:
-                    yield ".".join(comb)
+                if rest_part() == 1 and check_number(integer_string):
+                    yield ".".join(comb + [integer_string])
 
                 # unused digits is left, not valid partition
                 return
 
-            # TODO: pruning
+            # pruning: if rest length is impossible to get valid partition, stop this path
+            if not check_length(rest_part(),
+                                rest_length() + len(integer_string)):
+                return
 
             # if it's valid to append current integer with this char, try to append it
             if check_number(integer_string + s[index]):
@@ -62,9 +65,10 @@ class Solution:
 
         if not check_length(4, len(s)):
             return []
-        s += ' '
 
         return list(generate_ip(0))
 
 
 # @lc code=end
+test = Solution()
+print(test.restoreIpAddresses("25525511135"))
