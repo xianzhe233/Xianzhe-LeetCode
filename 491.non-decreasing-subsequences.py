@@ -10,47 +10,15 @@ from typing import List
 class Solution:
 
     def findSubsequences(self, nums: List[int]) -> List[List[int]]:
-        # Non-decreasing subsequence
-        nds = []
-        banned = set()
+        if not nums:
+            return []
 
-        def valid(index):
-            nonlocal nds, banned
+        pres = {(nums[0],)}
+        for num in nums[1:]:
+            pres.update({pre + (num,) for pre in pres if num >= pre[-1]})
+            pres.add((num,))
 
-            # if subsequence is empty, any number is ok
-            if not nds:
-                return True
-
-            # non-decreasing and not banned
-            return nds[-1] <= nums[index] and nums[index] not in banned
-
-        def nds_generator(index):
-            nonlocal nds, banned
-
-            # base case
-            if index == len(nums):
-                if len(nds) >= 2:
-                    yield nds[:]
-                return
-
-            num = nums[index]
-
-            if valid(index):
-                # allow to use this number
-                nds.append(num)
-                yield from nds_generator(index + 1)
-                nds.pop()
-
-                # choose to not use this number
-                banned.add(num)
-                yield from nds_generator(index + 1)
-                if num in banned:
-                    banned.remove(num)
-            else:
-                # if break non-decreasing, skip this number
-                yield from nds_generator(index + 1)
-
-        return list(nds_generator(0))
+        return [list(sequence) for sequence in pres if len(sequence) >= 2]
 
 
 # @lc code=end
