@@ -33,7 +33,7 @@ class Solution:
                     seq_length[current_index][False] = max(
                         seq_length[current_index][False],
                         seq_length[last_index][True] + 1)
-                # a increasing number can append an decreasing-ended sequence
+                # an increasing number can append a decreasing-ended sequence
                 if current_num > last_num:
                     seq_length[current_index][True] = max(
                         seq_length[current_index][True],
