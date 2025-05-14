@@ -3,6 +3,7 @@
 #
 # [376] Wiggle Subsequence
 #
+from collections import defaultdict
 from typing import List
 
 
@@ -13,18 +14,34 @@ class Solution:
         if len(nums) < 2:
             return len(nums)
 
-        ans = 1
-        last_diff = 0
-        diffs = [nums[i] - nums[i - 1] for i in range(1, len(nums))]
+        # states: seq_length[index][direction]
+        # seq_length: longest length of wiggle sequences that end with nums[index]
+        # index: index of a number in `nums`
+        # direction: True for increment, False for decrement
+        seq_length = defaultdict(dict)
+        for i in range(len(nums)):
+            # start from this number, length of sequence can always be 1
+            seq_length[i][True] = 1
+            seq_length[i][False] = 1
 
-        for diff in diffs:
-            # signs of two diffs are different
-            if diff * last_diff < 0 or (last_diff == 0 and diff):
-                ans += 1
+        # try to append sequence at `last_index` with number at `current_index`
+        for current_index in range(1, len(nums)):
+            for last_index in range(current_index):
+                last_num, current_num = nums[last_index], nums[current_index]
+                # a decreasing number can append an increasing-ended sequence
+                if current_num < last_num:
+                    seq_length[current_index][False] = max(
+                        seq_length[current_index][False],
+                        seq_length[last_index][True] + 1)
+                # a increasing number can append an decreasing-ended sequence
+                if current_num > last_num:
+                    seq_length[current_index][True] = max(
+                        seq_length[current_index][True],
+                        seq_length[last_index][False] + 1)
 
-            last_diff = diff
+        ans = max(seq_length[len(nums) - 1][True],
+                  seq_length[len(nums) - 1][False])
 
-        # an arbitrary number can always be in wiggle sequence
         return ans
 
 
