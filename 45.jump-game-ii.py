@@ -10,18 +10,18 @@ from typing import List
 class Solution:
 
     def jump(self, nums: List[int]) -> int:
-        INF = int(1e9)
-        N = len(nums)
 
-        steps = [INF] * N
-        # start at index 0
-        steps[0] = 0
+        ans = 0
+        cur_farthest = 0
+        next_farthest = 0
 
-        for pos, jump_range in enumerate(nums):
-            for new_pos in range(pos, min(N, pos + jump_range + 1)):
-                steps[new_pos] = min(steps[new_pos], steps[pos] + 1)
+        for pos, jump_range in enumerate(nums[:-1]):
+            next_farthest = max(next_farthest, pos + jump_range)
+            if pos == cur_farthest:
+                cur_farthest = next_farthest
+                ans += 1
 
-        return steps[N - 1]
+        return ans
 
 
 # @lc code=end
