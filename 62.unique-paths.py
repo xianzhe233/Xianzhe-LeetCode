@@ -9,20 +9,18 @@
 class Solution:
 
     def uniquePaths(self, m: int, n: int) -> int:
-        # num_path[x][y]: num of distinct paths to grid[x][y]
-        num_path = [[1] * n for _ in range(m)]
+        # num_path[y]: num of distinct paths to grid[x][y], x depends on iteration
+        num_path = [1] * n
 
         for x in range(1, m):
             for y in range(1, n):
                 # get here from left or up
-                num_path[x][y] = num_path[x - 1][y] + num_path[x][y - 1]
-
-        # print
-        for row in num_path:
-            print(row)
+                # up: num_path[y]
+                # left: num_path[y - 1]
+                num_path[y] = num_path[y] + num_path[y - 1]
 
         # num_path[m-1][n-1]
-        return num_path[-1][-1]
+        return num_path[-1]
 
 
 # @lc code=end
