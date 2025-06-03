@@ -4,23 +4,17 @@
 # [62] Unique Paths
 #
 
-
 # @lc code=start
+from math import comb
+
+
 class Solution:
 
     def uniquePaths(self, m: int, n: int) -> int:
-        # num_path[y]: num of distinct paths to grid[x][y], x depends on iteration
-        num_path = [1] * n
-
-        for x in range(1, m):
-            for y in range(1, n):
-                # get here from left or up
-                # up: num_path[y]
-                # left: num_path[y - 1]
-                num_path[y] = num_path[y] + num_path[y - 1]
-
-        # num_path[m-1][n-1]
-        return num_path[-1]
+        # C(m - 1, m + n - 2)
+        # m + n - 2 steps: (m - 1) steps down and (n - 1) steps right in total
+        # m - 1 combinations: choose which (m - 1) steps to go down, it's ok with (n - 1)
+        return comb(m + n - 2, m - 1)
 
 
 # @lc code=end
