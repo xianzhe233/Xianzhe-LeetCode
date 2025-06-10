@@ -17,7 +17,7 @@ class Solution:
         if abs(target) > shift:
             return 0
 
-        # dp[sum]: number of different ways using first `i` nums to get `sum`
+        # dp[i][sum]: number of different ways using first `i` nums to get `sum`
         # `i` is determined by iteration
         dp = [[0] * (shift * 2 + 1) for _ in range(len(nums) + 1)]
         # at the beginning, there's no number, so one way to get sum 0
