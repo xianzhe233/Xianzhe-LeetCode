@@ -14,6 +14,9 @@ class Solution:
         # because there's negative numbers, a positive shift number is needed
         shift = sum(nums)
 
+        if abs(target) > shift:
+            return 0
+
         # dp[sum]: number of different ways using first `i` nums to get `sum`
         # `i` is determined by iteration
         dp = [[0] * (shift * 2 + 1) for _ in range(len(nums) + 1)]
@@ -21,7 +24,7 @@ class Solution:
         dp[0][0 + shift] = 1
 
         for i, num in enumerate(nums, 1):
-            for current_sum in range(-num + shift, shift + shift):
+            for current_sum in range(shift + shift + 1):
 
                 ways = 0
 
