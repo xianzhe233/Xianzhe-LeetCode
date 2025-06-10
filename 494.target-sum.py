@@ -26,15 +26,13 @@ class Solution:
         for i, num in enumerate(nums, 1):
             for current_sum in range(shift + shift + 1):
 
-                ways = 0
-
+                # +num from (current_sum - num) to get current_sum
                 if current_sum - num >= 0:
-                    ways += dp[i - 1][current_sum - num]
+                    dp[i][current_sum] += dp[i - 1][current_sum - num]
 
+                # -num from (current_sum + num) to get current_sum
                 if current_sum + num <= 2 * shift:
-                    ways += dp[i - 1][current_sum + num]
-
-                dp[i][current_sum] = ways
+                    dp[i][current_sum] += dp[i - 1][current_sum + num]
 
         return dp[-1][target + shift]
 
