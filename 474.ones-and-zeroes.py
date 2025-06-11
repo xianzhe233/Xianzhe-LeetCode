@@ -21,25 +21,20 @@ class Solution:
 
         zero_ones = extract_bin()
 
-        # dp[str_index][zero][one]: maximum size of strings which have at most `zero` zeros and `one` ones
-        dp = [
-            [[0] * (n + 1) for _ in range(m + 1)] for _ in range(len(strs) + 1)
-        ]
+        # dp[zero][one]: maximum size of strings which have at most `zero` zeros and `one` ones using first `i` strings. `i` is determined by iteration
+        # initialization: at the beginning, we can get maximum size of 0 with first 0 strings (no string)
+        dp = [[0] * (n + 1) for _ in range(m + 1)]
 
-        for str_index, zero_one_tuple in enumerate(zero_ones, 1):
+        for zero_one_tuple in zero_ones:
             zeros, ones = zero_one_tuple
-            for num_zero in range(m + 1):
-                for num_one in range(n + 1):
-                    dp[str_index][num_zero][num_one] = dp[str_index -
-                                                          1][num_zero][num_one]
+            for num_zero in range(m, zeros - 1, -1):
+                for num_one in range(n, ones - 1, -1):
+                    dp[num_zero][num_one] = max(
+                        dp[num_zero][num_one],
+                        dp[num_zero - zeros][num_one - ones] + 1)
 
-                    if num_zero >= zeros and num_one >= ones:
-                        dp[str_index][num_zero][num_one] = max(
-                            dp[str_index][num_zero][num_one],
-                            dp[str_index - 1][num_zero - zeros][num_one - ones]
-                            + 1)
-
-        return dp[-1][-1][-1]
+        # dp[m][n]
+        return dp[-1][-1]
 
 
 # @lc code=end
